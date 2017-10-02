@@ -12,7 +12,7 @@ namespace Petroineos.CodeTest.Business.Reports.Providers
         public async Task<IEnumerable<ReportPoint>> GetAsync(IEnumerable<PowerTrade> trades)
         {
             var resultDate = DateTime.Now.Date.AddHours(-1);
-            return await Task.Run(() => trades.SelectMany(t => t.Periods).GroupBy(p => p.Period).Select(pg =>
+            return await Task.Run(() => trades.SelectMany(t => t.Periods).GroupBy(p => p.Period).OrderBy(p=>p.Key).Select(pg =>
                   {
                       var localTime = resultDate.AddHours(pg.Key - 1).ToString("HH:mm");
                       return new ReportPoint { LocalTime = localTime, Volume = pg.Aggregate(0D, (result, currentPeriod) => result + currentPeriod.Volume) };

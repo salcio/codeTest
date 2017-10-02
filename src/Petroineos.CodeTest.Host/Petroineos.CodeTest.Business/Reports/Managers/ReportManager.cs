@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using Common.Log;
+using Common.Logging;
 using Petroineos.CodeTest.Business.Reports.Providers;
 using Petroineos.CodeTest.Business.Reports.Writers;
 using Petroineos.CodeTest.Business.Trades.Providers;
@@ -34,7 +34,7 @@ namespace Petroineos.CodeTest.Business.Reports.Managers
             }
             catch (Exception e)
             {
-                _logger.Error($"Unhendled Exception: {e}");
+                _logger.ErrorFormat("Failed to generate report. Unhendled Exception", e);
             }
 
             _logger.Info("Finished report generation.");

@@ -1,37 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Practices.Unity;
+using Petroineos.CodeTest.Business;
+using Topshelf;
 
 namespace Petroineos.CodeTest.Host
 {
-    static class Program
+    static partial class Program
     {
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         static void Main()
         {
-            if (!Environment.UserInteractive)
+            using (var container = new UnityContainer())
             {
-                StartAsService();
-            }
-            else
-            {
-                new CodeTestService();
-            }
-        }
+                Bootstrapper.Initialize(container);
+                HostFactory.Run(x =>
+                {
+                    x.Service<PowerTradeReportingService>(s =>
+                    {
+                        s.ConstructUsing(name => container.Resolve<PowerTradeReportingService>());
+                        s.WhenStarted(tc => tc.Start());
+                        s.WhenStopped(tc => tc.Stop());
+                    });
+                    x.RunAsLocalSystem();
 
-        private static void StartAsService()
-        {
-            ServiceBase[] ServicesToRun;
-            ServicesToRun = new ServiceBase[]
-            {
-                new CodeTestService()
-            };
-            ServiceBase.Run(ServicesToRun);
+                    x.SetDescription("Petroineos Power Trade Reporting Service");
+                    x.SetDisplayName("Petroineos Power Trade Reporting Service");
+                    x.SetServiceName("Petroineos.PowerTrade.ReportingService");
+                    x.UseLog4Net();
+                });
+            }
         }
     }
 }

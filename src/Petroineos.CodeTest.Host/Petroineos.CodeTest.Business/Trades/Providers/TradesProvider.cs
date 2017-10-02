@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using Common.Log;
+using Common.Logging;
 using Petroineos.CodeTest.Business.Config;
 using Services;
 
@@ -29,17 +30,19 @@ namespace Petroineos.CodeTest.Business.Trades.Providers
             {
                 try
                 {
-                    _logger.Info($"Requesting trades for {date}");
-                    return await _powerService.GetTradesAsync(date);
+                    _logger.InfoFormat("{1}Requesting trades for {0}", date, retriesCount == 0 ? "" : $"Attempt {retriesCount + 1} - ");
+                    var result = (await _powerService.GetTradesAsync(date)).ToList();
+                    _logger.DebugFormat("Service returned {0} trades", result.Count);
+                    return result;
                 }
                 catch (Exception exception)
                 {
                     if (retriesCount >= maxRetries)
                     {
-                        _logger.Error("Failure to retrive PowerTrades for {2}. Number of attempts {0}. Exception: {1}", maxRetries, exception, date);
+                        _logger.ErrorFormat("Failure to retrive PowerTrades for {2}. Number of attempts {0}. Exception: {1}", maxRetries, exception, date);
                         throw;
                     }
-                    _logger.Warn("Exception while retriving PowerTrades for {2}. Will try again in {0}ms. Exception: {1}", delayBetweenRetries, exception, date);
+                    _logger.WarnFormat("Exception while retriving PowerTrades for {2}. Will try again in {0}ms. Exception: {1}", delayBetweenRetries, exception, date);
                     retriesCount++;
                     await Task.Delay(delayBetweenRetries);
                 }

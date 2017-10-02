@@ -4,13 +4,13 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Microsoft.Practices.ObjectBuilder2;
+using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ObjectBuilder2;
 using Petroineos.CodeTest.Business;
 using Petroineos.CodeTest.Business.Model;
 using Petroineos.CodeTest.Business.Reports.Providers;
 using Services;
-using Unity;
 
 namespace Petroineos.CodeTest.Tests
 {
@@ -35,8 +35,25 @@ namespace Petroineos.CodeTest.Tests
             var i = 0;
             result.ForEach(r =>
             {
-                r.ShouldBeEquivalentTo(new ReportPoint { LocalTime = date.ToString("HH:mm"), Volume = 2 * (i + 1) });
+                r.ShouldBeEquivalentTo(new ReportPoint { LocalTime = date.ToString("HH:mm"), Volume = (i > 21 ? 1 : 2) * (i + 1) });
                 date = date.AddHours(1);
+                i++;
+            });
+        }
+
+        [TestMethod]
+        public void When_UnsortedTradesReturned_ShouldOrderAndAggragateResults()
+        {
+            var dateTime = new DateTime(2017, 2, 2);
+            var result = _sut.GetAsync(GetUnorderedTrades(dateTime)).Result.ToList();
+            result.Count.Should().Be(24);
+            var date = dateTime.AddHours(-1);
+            var i = 0;
+            result.ForEach(r =>
+            {
+                r.ShouldBeEquivalentTo(new ReportPoint { LocalTime = date.ToString("HH:mm"), Volume = (i > 21 ? 1 : 2) * (i + 1) });
+                date = date.AddHours(1);
+                i++;
             });
         }
 
@@ -45,14 +62,34 @@ namespace Petroineos.CodeTest.Tests
             var powerTrades = new List<PowerTrade>
             {
                 PowerTrade.Create(date, 24),
-                PowerTrade.Create(date, 24),
+                PowerTrade.Create(date, 22),
             };
             powerTrades.ForEach(p =>
             {
                 var i = 0;
-                p.Periods.ForEach(t => t.Volume = i + 1);
+                p.Periods.ForEach(t => t.Volume = i++ + 1);
             });
             return powerTrades.AsEnumerable();
+        }
+
+        public IEnumerable<PowerTrade> GetUnorderedTrades(DateTime date)
+        {
+            var trades = new List<PowerTrade>
+            {
+                PowerTrade.Create(date, 24),
+                PowerTrade.Create(date, 22),
+            };
+            trades.ForEach(p =>
+            {
+                var i = p.Periods.Length;
+                p.Periods.ForEach(t =>
+                {
+                    t.Volume = i;
+                    t.Period = i--;
+                });
+                
+            });
+            return trades;
         }
     }
 

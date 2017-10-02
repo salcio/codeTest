@@ -9,7 +9,6 @@ namespace Petroineos.CodeTest.Business.Reports.Writers
     {
         public async Task WriteAsync(IEnumerable<ReportPoint> report)
         {
-            throw new NotImplementedException();
         }
     }
 }
