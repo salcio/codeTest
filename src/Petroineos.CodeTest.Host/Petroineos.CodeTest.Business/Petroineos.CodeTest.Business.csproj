@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Petroineos.CodeTest.Business</RootNamespace>
     <AssemblyName>Petroineos.CodeTest.Business</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,10 +31,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Common.Log, Version=1.0.0.0, Culture=neutral, PublicKeyToken=9720bde59dbab768, processorArchitecture=MSIL">
+      <HintPath>..\packages\Common.Log.1.0.0.0\lib\net45\Common.Log.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Log.log4net, Version=1.0.0.0, Culture=neutral, PublicKeyToken=9720bde59dbab768, processorArchitecture=MSIL">
+      <HintPath>..\packages\Common.Log.log4net.1.0.0.0\lib\net45\Common.Log.log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="PowerService">
       <HintPath>..\..\..\dependenties\PowerService.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -43,9 +54,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Providers\AggregateVolumeIntraDayReportProvider.cs" />
+    <Compile Include="Config\ConfigStore.cs" />
+    <Compile Include="Config\IConfigStore.cs" />
+    <Compile Include="Reports\Providers\AggregateVolumeIntraDayReportProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\ReportPoint.cs" />
+    <Compile Include="Reports\Writers\CsvReportWriter.cs" />
+    <Compile Include="Reports\Providers\IReportProvider.cs" />
+    <Compile Include="Reports\Writers\IReportWriter.cs" />
+    <Compile Include="Trades\Providers\ITradesProvider.cs" />
+    <Compile Include="Reports\Managers\ReportManager.cs" />
+    <Compile Include="Trades\Providers\TradesProvider.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

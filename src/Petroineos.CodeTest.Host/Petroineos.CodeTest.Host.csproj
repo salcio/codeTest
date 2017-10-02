@@ -8,8 +8,9 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>Petroineos.CodeTest.Host</RootNamespace>
     <AssemblyName>Petroineos.CodeTest.Host</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -71,6 +72,12 @@
     <EmbeddedResource Include="CodeTestService.resx">
       <DependentUpon>CodeTestService.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Petroineos.CodeTest.Business\Petroineos.CodeTest.Business.csproj">
+      <Project>{988FC887-A08B-4A17-96E3-916E930DB53C}</Project>
+      <Name>Petroineos.CodeTest.Business</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
