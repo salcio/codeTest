@@ -5,8 +5,10 @@ using Services;
 
 namespace Petroineos.CodeTest.Business.Reports.Providers
 {
+    using System;
+
     public interface IReportProvider
     {
-        Task<Report> GetAsync(IEnumerable<PowerTrade> trades);
+        Task<Report> GetAsync(IEnumerable<PowerTrade> trades, DateTime date);
     }
 }

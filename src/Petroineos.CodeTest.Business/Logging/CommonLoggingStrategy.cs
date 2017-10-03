@@ -1,9 +1,11 @@
-using Common.Logging;
-using Microsoft.Practices.ObjectBuilder2;
-using UnityLog4NetExtension.CreationStackTracker;
-
-namespace Petroineos.CodeTest.Business
+namespace Petroineos.CodeTest.Business.Logging
 {
+    using Common.Logging;
+
+    using Microsoft.Practices.ObjectBuilder2;
+
+    using UnityLog4NetExtension.CreationStackTracker;
+
     public class CommonLoggingStrategy : BuilderStrategy
     {
         public override void PreBuildUp(IBuilderContext context)

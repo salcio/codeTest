@@ -29,7 +29,7 @@ namespace Petroineos.CodeTest.Business.Reports.Managers
             try
             {
                 var trades = await _tradesProvider.GetAsync(date);
-                var report = await _reportProvider.GetAsync(trades);
+                var report = await _reportProvider.GetAsync(trades, date);
                 await _reportWriter.WriteAsync(report);
             }
             catch (Exception e)

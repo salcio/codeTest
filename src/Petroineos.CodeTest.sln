@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Petroineos.CodeTest.Host", "Petroineos.CodeTest.Host.csproj", "{A80243A5-CA41-402E-9E0A-00F54AA1C463}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Petroineos.CodeTest.Host", "Petroineos.CodeTest.Host\Petroineos.CodeTest.Host.csproj", "{A80243A5-CA41-402E-9E0A-00F54AA1C463}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Petroineos.CodeTest.Tests", "..\Petroineos.CodeTest.Tests\Petroineos.CodeTest.Tests.csproj", "{EBB3B63C-9676-4DDB-8164-F094FA1C9F3A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Petroineos.CodeTest.Tests", "Petroineos.CodeTest.Tests\Petroineos.CodeTest.Tests.csproj", "{EBB3B63C-9676-4DDB-8164-F094FA1C9F3A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Petroineos.CodeTest.Business", "Petroineos.CodeTest.Business\Petroineos.CodeTest.Business.csproj", "{988FC887-A08B-4A17-96E3-916E930DB53C}"
 EndProject
