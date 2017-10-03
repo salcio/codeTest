@@ -1,4 +1,4 @@
-﻿namespace Petroineos.CodeTest.Business.Model
+﻿namespace Petroineos.CodeTest.Business.Reports.Model
 {
     public class ReportPoint
     {

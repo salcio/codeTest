@@ -8,7 +8,7 @@ using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Petroineos.CodeTest.Business;
-using Petroineos.CodeTest.Business.Model;
+using Petroineos.CodeTest.Business.Reports.Model;
 using Petroineos.CodeTest.Business.Reports.Providers;
 using Services;
 
@@ -29,11 +29,11 @@ namespace Petroineos.CodeTest.Tests
         public void When_FullTradesReturned_ShouldAggragateResults()
         {
             var dateTime = new DateTime(2017, 2, 2);
-            var result = _sut.GetAsync(GetTrades(dateTime)).Result.ToList();
-            result.Count.Should().Be(24);
+            var result = _sut.GetAsync(GetTrades(dateTime)).Result;
+            result.Points.Count.Should().Be(24);
             var date = dateTime.AddHours(-1);
             var i = 0;
-            result.ForEach(r =>
+            result.Points.ForEach(r =>
             {
                 r.ShouldBeEquivalentTo(new ReportPoint { LocalTime = date.ToString("HH:mm"), Volume = (i > 21 ? 1 : 2) * (i + 1) });
                 date = date.AddHours(1);
@@ -45,11 +45,11 @@ namespace Petroineos.CodeTest.Tests
         public void When_UnsortedTradesReturned_ShouldOrderAndAggragateResults()
         {
             var dateTime = new DateTime(2017, 2, 2);
-            var result = _sut.GetAsync(GetUnorderedTrades(dateTime)).Result.ToList();
-            result.Count.Should().Be(24);
+            var result = _sut.GetAsync(GetUnorderedTrades(dateTime)).Result;
+            result.Points.Count.Should().Be(24);
             var date = dateTime.AddHours(-1);
             var i = 0;
-            result.ForEach(r =>
+            result.Points.ForEach(r =>
             {
                 r.ShouldBeEquivalentTo(new ReportPoint { LocalTime = date.ToString("HH:mm"), Volume = (i > 21 ? 1 : 2) * (i + 1) });
                 date = date.AddHours(1);
@@ -57,7 +57,7 @@ namespace Petroineos.CodeTest.Tests
             });
         }
 
-        public IEnumerable<PowerTrade> GetTrades(DateTime date)
+        private IEnumerable<PowerTrade> GetTrades(DateTime date)
         {
             var powerTrades = new List<PowerTrade>
             {
@@ -72,7 +72,7 @@ namespace Petroineos.CodeTest.Tests
             return powerTrades.AsEnumerable();
         }
 
-        public IEnumerable<PowerTrade> GetUnorderedTrades(DateTime date)
+        private IEnumerable<PowerTrade> GetUnorderedTrades(DateTime date)
         {
             var trades = new List<PowerTrade>
             {

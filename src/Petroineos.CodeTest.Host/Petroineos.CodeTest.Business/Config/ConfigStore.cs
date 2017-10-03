@@ -8,11 +8,12 @@ using System.Threading.Tasks;
 
 namespace Petroineos.CodeTest.Business.Config
 {
-    public class ConfigStore: IConfigStore
+    public class ConfigStore : IConfigStore
     {
         public int ReportIntervalInMinutes => Get("ReportIntervalInMinutes", false, 1);
         public int MaxRetriesOnServiceError => Get("MaxRetriesOnServiceError", false, 3);
         public int DelayBetweenRetiesInMiliseconds => Get("DelayBetweenRetiesInMiliseconds", false, 500);
+        public string ReportFilesDestinationFolder => Get<string>("ReportFilesDestinationFolder", true, null);
 
         private T Get<T>(string reportinterval, bool required, T defaultValue)
         {
@@ -25,7 +26,7 @@ namespace Petroineos.CodeTest.Business.Config
                 }
                 return defaultValue;
             }
-            return (T) new TypeConverter().ConvertTo(value,typeof(T));
+            return (T)Convert.ChangeType(value, typeof(T));
         }
     }
 }

@@ -5,5 +5,6 @@
         int ReportIntervalInMinutes { get; }
         int MaxRetriesOnServiceError { get; }
         int DelayBetweenRetiesInMiliseconds { get; }
+        string ReportFilesDestinationFolder { get; }
     }
 }
